@@ -52,7 +52,7 @@ namespace SnakeClone
             apples = new List<Apple>();
             snakes = new Queue<Snake>();
             //apple.position = new Vector2(random.Next(0, _graphics.PreferredBackBufferHeight), random.Next(0, _graphics.PreferredBackBufferWidth));
-            snakeSpeed = 100f;
+            snakeSpeed = 10f;
             base.Initialize();
         }
 
@@ -79,10 +79,29 @@ namespace SnakeClone
                 Exit();
 
             // TODO: Add your update logic here
-            VectorAndLastDirection vld = movement.Move(snake.position, snakeSpeed, gameTime, true, lastDirection);
-            //snakes.ElementAt(0).position = vld.position;
-            snake.position = vld.position;
+            VectorAndLastDirection vld = movement.Move(snakes.ElementAt(0).position, snakeSpeed, gameTime, true, lastDirection);
+            snakes.ElementAt(0).position = vld.position;
+            snakePositions[0] = vld.position;
             lastDirection = vld.lastDirection;
+            for (int i = 1; i < snakePositions.Count; i++)
+            {
+                switch (lastDirection)
+                {
+                    case "up":
+                        snakes.ElementAt(i).position = new Vector2(snakePositions[i - 1].X, snakePositions[i - 1].Y + snakeTexture.Height);
+                        break;
+                    case "down":
+                        snakes.ElementAt(i).position = new Vector2(snakePositions[i - 1].X, snakePositions[i - 1].Y - snakeTexture.Height);
+                        break;
+                    case "left":
+                        snakes.ElementAt(i).position = new Vector2(snakePositions[i - 1].X + snakeTexture.Width, snakePositions[i - 1].Y);
+                        break;
+                    case "right":
+                        snakes.ElementAt(i).position = new Vector2(snakePositions[i - 1].X - snakeTexture.Width, snakePositions[i - 1].Y);
+                        break;
+                }
+                snakePositions[i] = snakes.ElementAt(i).position;
+            }
 
             for (int i = 0; i < apples.Count(); i++)
             {
@@ -91,11 +110,26 @@ namespace SnakeClone
                 apples[i].position.X = keepAppleInBounds.X;
                 apples[i].position.Y = keepAppleInBounds.Y;
 
-                if (utilities.Collides(snakeTexture, apples[i].texture, snake.position, apples[i].position))
+                if (utilities.Collides(snakeTexture, apples[i].texture, snakes.ElementAt(0).position, apples[i].position))
                 {
-                    Snake snake2 = new Snake(snakeTexture);
-                    snake2.position = new Vector2(snakePositions[0].X + snakeTexture.Width, snakePositions[0].Y + snakeTexture.Height);
-                    snakes.Enqueue(snake);
+                    Snake addSnake = new Snake(snakeTexture);
+                    switch (lastDirection)
+                    {
+                        case "up":
+                            addSnake.position = new Vector2(snake.position.X, snake.position.Y + snakeTexture.Height);
+                            break;
+                        case "down":
+                            addSnake.position = new Vector2(snake.position.X, snake.position.Y - snakeTexture.Height);
+                            break;
+                        case "left":
+                            addSnake.position = new Vector2(snake.position.X + snakeTexture.Width, snake.position.Y);
+                            break;
+                        case "right":
+                            addSnake.position = new Vector2(snake.position.X - snakeTexture.Width, snake.position.Y);
+                            break;
+                    }
+                    snakePositions.Add(addSnake.position);
+                    snakes.Enqueue(addSnake);
                     snakeSpeed += 10f;
                     score += 100;
                     apples.RemoveAt(i);
@@ -109,10 +143,9 @@ namespace SnakeClone
             }
 
             Vector2 keepSnakeInBounds = utilities.KeepInBounds(snakes.ElementAt(0).position, _graphics, snakeTexture);
-            //snakes.ElementAt(0).position = keepSnakeInBounds;
-            snake.position = keepSnakeInBounds;
+            snakes.ElementAt(0).position = keepSnakeInBounds;
 
-            if (utilities.CollideWithBounds(snakePositions[0], _graphics, snakeTexture))
+            if (utilities.CollideWithBounds(snakes.ElementAt(0).position, _graphics, snakeTexture))
             {
                 gameOver = true;
             }
@@ -134,20 +167,20 @@ namespace SnakeClone
             }
             else
             {
-                snake.Draw(_spriteBatch);
-                //for (int i = 0; i < snakes.Count(); i++)
-                //{
-                //    snakes.ElementAt(i).Draw(_spriteBatch);
-                //    //_spriteBatch.Draw(snakeTexture, snakes.ElementAt(i).position, null, Color.White, 0f,
-                //    //    new Vector2(snakePositions[i].X, snakePositions[i].Y), Vector2.One, SpriteEffects.None, 0f);
-                //}
+                //snake.Draw(_spriteBatch);
+                for (int i = 0; i < snakes.Count(); i++)
+                {
+                    snakes.ElementAt(i).Draw(_spriteBatch);
+                    //_spriteBatch.Draw(snakeTexture, snakes.ElementAt(i).position, null, Color.White, 0f,
+                    //    new Vector2(snakePositions[i].X, snakePositions[i].Y), Vector2.One, SpriteEffects.None, 0f);
+                }
+                foreach (Apple apple in apples)
+                {
+                    apple.Draw(_spriteBatch);
+                }
+                _spriteBatch.DrawString(spScore, "Score: " + score, new Vector2(0, 0), Color.White);
+                _spriteBatch.DrawString(spCurrSpeed, "Current Speed: " + snakeSpeed, new Vector2(0, 15), Color.White);
             }
-            foreach (Apple apple in apples)
-            {
-                apple.Draw(_spriteBatch);
-            }
-            _spriteBatch.DrawString(spScore, "Score: " + score, new Vector2(0, 0), Color.White);
-            _spriteBatch.DrawString(spCurrSpeed, "Current Speed: " + snakeSpeed, new Vector2(0, 15), Color.White);
             _spriteBatch.End();
 
             base.Draw(gameTime);

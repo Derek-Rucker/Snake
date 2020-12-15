@@ -1,0 +1,7 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Development/SnakeClone/SnakeClone/Content/apple.png","C:/Development/SnakeClone/SnakeClone/Content/bin/DesktopGL/Content/apple.xnb","TextureProcessor","Texture2DContent",162,4181,0.4037979
+"C:/Development/SnakeClone/SnakeClone/Content/ball.png","C:/Development/SnakeClone/SnakeClone/Content/bin/DesktopGL/Content/ball.xnb","TextureProcessor","Texture2DContent",8368,16469,0.0308683
+"C:/Development/SnakeClone/SnakeClone/Content/currentSpeed.spritefont","C:/Development/SnakeClone/SnakeClone/Content/bin/DesktopGL/Content/currentSpeed.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21538,0.2396172
+"C:/Development/SnakeClone/SnakeClone/Content/gameOver.spritefont","C:/Development/SnakeClone/SnakeClone/Content/bin/DesktopGL/Content/gameOver.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21538,0.1165709
+"C:/Development/SnakeClone/SnakeClone/Content/score.spritefont","C:/Development/SnakeClone/SnakeClone/Content/bin/DesktopGL/Content/score.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21538,0.0342793
+"C:/Development/SnakeClone/SnakeClone/Content/snake.png","C:/Development/SnakeClone/SnakeClone/Content/bin/DesktopGL/Content/snake.xnb","TextureProcessor","Texture2DContent",157,4181,0.0041321

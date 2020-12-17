@@ -25,8 +25,8 @@ namespace SnakeClone
         List<Vector2> snakePositions;
 
         float snakeSpeed;
-        string lastDirection = "";
-        int score = 0;
+        string lastDirection;
+        int score;
         bool gameOver;
 
         SpriteFont spScore;
@@ -51,6 +51,8 @@ namespace SnakeClone
             //snakePosition = new Vector2(_graphics.PreferredBackBufferHeight / 2, _graphics.PreferredBackBufferWidth / 2);
             apples = new List<Apple>();
             snakes = new Queue<Snake>();
+            lastDirection = "";
+            score = 0;
             //apple.position = new Vector2(random.Next(0, _graphics.PreferredBackBufferHeight), random.Next(0, _graphics.PreferredBackBufferWidth));
             snakeSpeed = 10f;
             base.Initialize();
@@ -66,6 +68,7 @@ namespace SnakeClone
             apples.Add(apple);
             snake = new Snake(snakeTexture);
             snake.position = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
+            snake.prevPosition = new Vector2();
             snakes.Enqueue(snake);
             snakePositions.Add(snake.position);
             spScore = Content.Load<SpriteFont>("score");
@@ -78,76 +81,90 @@ namespace SnakeClone
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            VectorAndLastDirection vld = movement.Move(snakes.ElementAt(0).position, snakeSpeed, gameTime, true, lastDirection);
-            snakes.ElementAt(0).position = vld.position;
-            snakePositions[0] = vld.position;
-            lastDirection = vld.lastDirection;
-            for (int i = 1; i < snakePositions.Count; i++)
+            if (!gameOver)
             {
-                switch (lastDirection)
+                // TODO: Add your update logic here
+                VectorAndLastDirection vld = movement.Move(snakes.ElementAt(0).position, snakeSpeed, gameTime, true, lastDirection);
+                snakes.ElementAt(0).prevPosition = snakes.ElementAt(0).position;
+                snakes.ElementAt(0).position = vld.position;
+                lastDirection = vld.lastDirection;
+                for (int i = 1; i < snakes.Count; i++)
                 {
-                    case "up":
-                        snakes.ElementAt(i).position = new Vector2(snakePositions[i - 1].X, snakePositions[i - 1].Y + snakeTexture.Height);
-                        break;
-                    case "down":
-                        snakes.ElementAt(i).position = new Vector2(snakePositions[i - 1].X, snakePositions[i - 1].Y - snakeTexture.Height);
-                        break;
-                    case "left":
-                        snakes.ElementAt(i).position = new Vector2(snakePositions[i - 1].X + snakeTexture.Width, snakePositions[i - 1].Y);
-                        break;
-                    case "right":
-                        snakes.ElementAt(i).position = new Vector2(snakePositions[i - 1].X - snakeTexture.Width, snakePositions[i - 1].Y);
-                        break;
-                }
-                snakePositions[i] = snakes.ElementAt(i).position;
-            }
-
-            for (int i = 0; i < apples.Count(); i++)
-            {
-                //Make sure it doesn't leave the bounds
-                Vector2 keepAppleInBounds = utilities.KeepInBounds(apples[i].position, _graphics, apples[i].texture);
-                apples[i].position.X = keepAppleInBounds.X;
-                apples[i].position.Y = keepAppleInBounds.Y;
-
-                if (utilities.Collides(snakeTexture, apples[i].texture, snakes.ElementAt(0).position, apples[i].position))
-                {
-                    Snake addSnake = new Snake(snakeTexture);
+                    snakes.ElementAt(i).prevPosition = snakes.ElementAt(i).position;
                     switch (lastDirection)
                     {
                         case "up":
-                            addSnake.position = new Vector2(snake.position.X, snake.position.Y + snakeTexture.Height);
+                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y + snakeTexture.Height);
                             break;
                         case "down":
-                            addSnake.position = new Vector2(snake.position.X, snake.position.Y - snakeTexture.Height);
+                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y - snakeTexture.Height);
                             break;
                         case "left":
-                            addSnake.position = new Vector2(snake.position.X + snakeTexture.Width, snake.position.Y);
+                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X + snakeTexture.Height, snakes.ElementAt(i - 1).prevPosition.Y);
                             break;
                         case "right":
-                            addSnake.position = new Vector2(snake.position.X - snakeTexture.Width, snake.position.Y);
+                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X - snakeTexture.Width, snakes.ElementAt(i - 1).prevPosition.Y);
                             break;
                     }
-                    snakePositions.Add(addSnake.position);
-                    snakes.Enqueue(addSnake);
-                    snakeSpeed += 10f;
-                    score += 100;
-                    apples.RemoveAt(i);
+                }
+
+                for (int i = 0; i < apples.Count(); i++)
+                {
+                    //Make sure it doesn't leave the bounds
+                    Vector2 keepAppleInBounds = utilities.KeepInBounds(apples[i].position, _graphics, apples[i].texture);
+                    apples[i].position.X = keepAppleInBounds.X;
+                    apples[i].position.Y = keepAppleInBounds.Y;
+
+                    if (utilities.Collides(snakeTexture, apples[i].texture, snakes.ElementAt(0).position, apples[i].position))
+                    {
+                        Snake addSnake = new Snake(snakeTexture);
+                        addSnake.prevPosition = new Vector2();
+                        switch (lastDirection)
+                        {
+                            case "up":
+                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).prevPosition.X, snakes.ElementAt(snakes.Count() - 1).prevPosition.Y + snakeTexture.Height);
+                                break;
+                            case "down":
+                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).prevPosition.X, snakes.ElementAt(snakes.Count() - 1).prevPosition.Y - snakeTexture.Height);
+                                break;
+                            case "left":
+                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).prevPosition.X + snakeTexture.Width, snakes.ElementAt(snakes.Count() - 1).prevPosition.Y);
+                                break;
+                            case "right":
+                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).prevPosition.X - snakeTexture.Width, snakes.ElementAt(snakes.Count() - 1).prevPosition.Y);
+                                break;
+                        }
+                        snakes.Enqueue(addSnake);
+                        snakeSpeed += 1f;
+                        score += 100;
+                        apples.RemoveAt(i);
+                    }
+                }
+
+                if (apples.Count() == 0)
+                {
+                    Apple apple = new Apple(appleTexture, new Vector2(random.Next(0, _graphics.PreferredBackBufferHeight), random.Next(0, _graphics.PreferredBackBufferWidth)));
+                    apples.Add(apple);
+                }
+
+                Vector2 keepSnakeInBounds = utilities.KeepInBounds(snakes.ElementAt(0).position, _graphics, snakeTexture);
+                snakes.ElementAt(0).position = keepSnakeInBounds;
+
+                if (utilities.CollideWithBounds(snakes.ElementAt(0).position, _graphics, snakeTexture))
+                {
+                    gameOver = true;
                 }
             }
-
-            if (apples.Count() == 0)
+            else
             {
-                Apple apple = new Apple(appleTexture, new Vector2(random.Next(0, _graphics.PreferredBackBufferHeight), random.Next(0, _graphics.PreferredBackBufferWidth)));
-                apples.Add(apple);
-            }
-
-            Vector2 keepSnakeInBounds = utilities.KeepInBounds(snakes.ElementAt(0).position, _graphics, snakeTexture);
-            snakes.ElementAt(0).position = keepSnakeInBounds;
-
-            if (utilities.CollideWithBounds(snakes.ElementAt(0).position, _graphics, snakeTexture))
-            {
-                gameOver = true;
+                KeyboardState ks = Keyboard.GetState();
+                if (ks.IsKeyDown(Keys.R))
+                {
+                    Initialize();
+                    gameOver = false;
+                }
+                else if (ks.IsKeyDown(Keys.X))
+                    Exit();
             }
 
             base.Update(gameTime);
@@ -168,12 +185,14 @@ namespace SnakeClone
             else
             {
                 //snake.Draw(_spriteBatch);
-                for (int i = 0; i < snakes.Count(); i++)
+                foreach (Snake snake in snakes)
                 {
-                    snakes.ElementAt(i).Draw(_spriteBatch);
-                    //_spriteBatch.Draw(snakeTexture, snakes.ElementAt(i).position, null, Color.White, 0f,
-                    //    new Vector2(snakePositions[i].X, snakePositions[i].Y), Vector2.One, SpriteEffects.None, 0f);
+                    snake.Draw(_spriteBatch);
                 }
+                //for (int i = 0; i < snakes.Count(); i++)
+                //{
+                //    snakes.ElementAt(i).Draw(_spriteBatch);
+                //}
                 foreach (Apple apple in apples)
                 {
                     apple.Draw(_spriteBatch);

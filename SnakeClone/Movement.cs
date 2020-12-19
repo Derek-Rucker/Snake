@@ -9,24 +9,33 @@ namespace SnakeClone
 {
     public class Movement
     {
+        KeyboardState kstate, prevKstate;
         public VectorAndLastDirection Move(Vector2 position, float speed, GameTime gameTime, bool isSnake = false, string lastDirection = "")
         {
-            var kstate = Keyboard.GetState();
+            prevKstate = kstate;
+            kstate = Keyboard.GetState();
             if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
             {
+                //position.Y -= speed;
                 position.Y -= speed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds/60);
                 lastDirection = "up";
-            } else if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
+            }
+            else if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
             {
                 position.Y += speed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
+                //position.Y += speed;
                 lastDirection = "down";
-            } else if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
+            }
+            else if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
             {
                 position.X -= speed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
+                //position.X -= speed;
                 lastDirection = "left";
-            } else if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
+            }
+            else if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
             {
                 position.X += speed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
+                //position.X += speed;
                 lastDirection = "right";
             }
 

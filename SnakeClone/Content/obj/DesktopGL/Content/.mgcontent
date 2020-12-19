@@ -6,12 +6,14 @@
   <SourceFiles>
     <File>C:/Development/SnakeClone/SnakeClone/Content/apple.png</File>
     <File>C:/Development/SnakeClone/SnakeClone/Content/ball.png</File>
+    <File>C:/Development/SnakeClone/SnakeClone/Content/coords.spritefont</File>
     <File>C:/Development/SnakeClone/SnakeClone/Content/currentSpeed.spritefont</File>
     <File>C:/Development/SnakeClone/SnakeClone/Content/gameOver.spritefont</File>
     <File>C:/Development/SnakeClone/SnakeClone/Content/score.spritefont</File>
     <File>C:/Development/SnakeClone/SnakeClone/Content/snake.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

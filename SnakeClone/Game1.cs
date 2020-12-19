@@ -32,6 +32,7 @@ namespace SnakeClone
         SpriteFont spScore;
         SpriteFont spCurrSpeed;
         SpriteFont spGameOver;
+        SpriteFont spCoords;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -68,12 +69,13 @@ namespace SnakeClone
             apples.Add(apple);
             snake = new Snake(snakeTexture);
             snake.position = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
-            snake.prevPosition = new Vector2();
+            snake.prevDirection = "";
             snakes.Enqueue(snake);
             snakePositions.Add(snake.position);
             spScore = Content.Load<SpriteFont>("score");
             spCurrSpeed = Content.Load<SpriteFont>("currentSpeed");
             spGameOver = Content.Load<SpriteFont>("gameOver");
+            spCoords = Content.Load<SpriteFont>("coords");
         }
 
         protected override void Update(GameTime gameTime)
@@ -85,25 +87,28 @@ namespace SnakeClone
             {
                 // TODO: Add your update logic here
                 VectorAndLastDirection vld = movement.Move(snakes.ElementAt(0).position, snakeSpeed, gameTime, true, lastDirection);
-                snakes.ElementAt(0).prevPosition = snakes.ElementAt(0).position;
+                snakes.ElementAt(0).prevDirection = vld.lastDirection;
                 snakes.ElementAt(0).position = vld.position;
                 lastDirection = vld.lastDirection;
                 for (int i = 1; i < snakes.Count; i++)
                 {
-                    snakes.ElementAt(i).prevPosition = snakes.ElementAt(i).position;
-                    switch (lastDirection)
+                    switch (snakes.ElementAt(i -1).prevDirection)
                     {
                         case "up":
-                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y + snakeTexture.Height);
+                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).position.X, snakes.ElementAt(i - 1).position.Y + snakeTexture.Height);
+                            snakes.ElementAt(i).prevDirection = "up";
                             break;
                         case "down":
-                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y - snakeTexture.Height);
+                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).position.X, snakes.ElementAt(i - 1).position.Y - snakeTexture.Height);
+                            snakes.ElementAt(i).prevDirection = "down";
                             break;
                         case "left":
-                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X + snakeTexture.Height, snakes.ElementAt(i - 1).prevPosition.Y);
+                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).position.X + snakeTexture.Height, snakes.ElementAt(i - 1).position.Y);
+                            snakes.ElementAt(i).prevDirection = "left";
                             break;
                         case "right":
-                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X - snakeTexture.Width, snakes.ElementAt(i - 1).prevPosition.Y);
+                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).position.X - snakeTexture.Width, snakes.ElementAt(i - 1).position.Y);
+                            snakes.ElementAt(i).prevDirection = "right";
                             break;
                     }
                 }
@@ -118,20 +123,20 @@ namespace SnakeClone
                     if (utilities.Collides(snakeTexture, apples[i].texture, snakes.ElementAt(0).position, apples[i].position))
                     {
                         Snake addSnake = new Snake(snakeTexture);
-                        addSnake.prevPosition = new Vector2();
+                        addSnake.prevDirection = "";
                         switch (lastDirection)
                         {
                             case "up":
-                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).prevPosition.X, snakes.ElementAt(snakes.Count() - 1).prevPosition.Y + snakeTexture.Height);
+                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).position.X, snakes.ElementAt(snakes.Count() - 1).position.Y + snakeTexture.Height);
                                 break;
                             case "down":
-                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).prevPosition.X, snakes.ElementAt(snakes.Count() - 1).prevPosition.Y - snakeTexture.Height);
+                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).position.X, snakes.ElementAt(snakes.Count() - 1).position.Y - snakeTexture.Height);
                                 break;
                             case "left":
-                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).prevPosition.X + snakeTexture.Width, snakes.ElementAt(snakes.Count() - 1).prevPosition.Y);
+                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).position.X + snakeTexture.Width, snakes.ElementAt(snakes.Count() - 1).position.Y);
                                 break;
                             case "right":
-                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).prevPosition.X - snakeTexture.Width, snakes.ElementAt(snakes.Count() - 1).prevPosition.Y);
+                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).position.X - snakeTexture.Width, snakes.ElementAt(snakes.Count() - 1).position.Y);
                                 break;
                         }
                         snakes.Enqueue(addSnake);
@@ -199,6 +204,7 @@ namespace SnakeClone
                 }
                 _spriteBatch.DrawString(spScore, "Score: " + score, new Vector2(0, 0), Color.White);
                 _spriteBatch.DrawString(spCurrSpeed, "Current Speed: " + snakeSpeed, new Vector2(0, 15), Color.White);
+                _spriteBatch.DrawString(spCoords, Mouse.GetState().Position.ToString(), new Vector2(0, 30), Color.White);
             }
             _spriteBatch.End();
 

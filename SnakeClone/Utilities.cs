@@ -12,16 +12,16 @@ namespace SnakeClone.Utilities
         {
             Vector2 inBounds = new Vector2();
 
-            if (position.X > _graphics.PreferredBackBufferWidth - texture.Width / 2)
-                position.X = _graphics.PreferredBackBufferWidth - texture.Width / 2;
-            else if (position.X < texture.Width / 2)
-                position.X = texture.Width / 2;
+            if (position.X > _graphics.PreferredBackBufferWidth - texture.Width)
+                position.X = _graphics.PreferredBackBufferWidth - texture.Width;
+            else if (position.X <= 0)
+                position.X = 0;
             inBounds.X = position.X;
 
-            if (position.Y > _graphics.PreferredBackBufferHeight - texture.Height / 2)
-                position.Y = _graphics.PreferredBackBufferHeight - texture.Height / 2;
-            else if (position.Y < texture.Height / 2)
-                position.Y = texture.Height / 2;
+            if (position.Y > _graphics.PreferredBackBufferHeight - texture.Height)
+                position.Y = _graphics.PreferredBackBufferHeight - texture.Height;
+            else if (position.Y <= 0)
+                position.Y = 0;
             inBounds.Y = position.Y;
 
             return inBounds;
@@ -44,10 +44,10 @@ namespace SnakeClone.Utilities
         {
             bool collides = false;
 
-            if (position.X >= _graphics.PreferredBackBufferWidth - texture.Width / 2 ||
-                    position.Y >= _graphics.PreferredBackBufferHeight - texture.Height / 2)
+            if (position.X >= _graphics.PreferredBackBufferWidth - texture.Width ||
+                    position.Y >= _graphics.PreferredBackBufferHeight - texture.Height)
                 collides = true;
-            else if (position.X <= texture.Width / 2 || position.Y <= texture.Height / 2)
+            else if (position.X <= 0 || position.Y <= 0)
                 collides = true;
 
             return collides;

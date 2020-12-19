@@ -37,6 +37,13 @@
 /processorParam:TextureFormat=Color
 /build:ball.png
 
+#begin coords.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:coords.spritefont
+
 #begin currentSpeed.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

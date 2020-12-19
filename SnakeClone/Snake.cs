@@ -10,6 +10,9 @@ namespace SnakeClone
     {
         public Vector2 position;
         public Texture2D texture;
+        public string currDirection;
+        public string lastDirection;
+        public Vector2 prevPosition;
 
         public Snake(Texture2D texture)
         {

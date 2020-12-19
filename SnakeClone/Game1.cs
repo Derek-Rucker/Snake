@@ -93,19 +93,19 @@ namespace SnakeClone
                     switch (snakes.ElementAt(i - 1).lastDirection)
                     {
                         case "up":
-                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y + snakeTexture.Height);
+                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y);// + snakeTexture.Height);
                             //snakes.ElementAt(i).position.Y -= snakeSpeed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
                             break;
                         case "down":
-                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y - snakeTexture.Height);
+                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y);// - snakeTexture.Height);
                             //snakes.ElementAt(i).position.Y += snakeSpeed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
                             break;
                         case "left":
-                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X + snakeTexture.Width, snakes.ElementAt(i - 1).prevPosition.Y);
+                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y);
                             //snakes.ElementAt(i).position.X -= snakeSpeed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
                             break;
                         case "right":
-                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X - snakeTexture.Width, snakes.ElementAt(i - 1).prevPosition.Y);
+                            snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y);
                             //snakes.ElementAt(i).position.X += snakeSpeed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
                             break;
                     }
@@ -126,16 +126,16 @@ namespace SnakeClone
                         switch (snakes.ElementAt(0).currDirection)
                         {
                             case "up":
-                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).position.X, snakes.ElementAt(snakes.Count() - 1).position.Y + snakeTexture.Height);
+                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).position.X, snakes.ElementAt(snakes.Count() - 1).position.Y);// + snakeTexture.Height);
                                 break;
                             case "down":
-                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).position.X, snakes.ElementAt(snakes.Count() - 1).position.Y - snakeTexture.Height);
+                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).position.X, snakes.ElementAt(snakes.Count() - 1).position.Y);// - snakeTexture.Height);
                                 break;
                             case "left":
-                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).position.X + snakeTexture.Width, snakes.ElementAt(snakes.Count() - 1).position.Y);
+                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).position.X, snakes.ElementAt(snakes.Count() - 1).position.Y);
                                 break;
                             case "right":
-                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).position.X - snakeTexture.Width, snakes.ElementAt(snakes.Count() - 1).position.Y);
+                                addSnake.position = new Vector2(snakes.ElementAt(snakes.Count() - 1).position.X, snakes.ElementAt(snakes.Count() - 1).position.Y);
                                 break;
                         }
                         snakePositions.Add(addSnake.position);

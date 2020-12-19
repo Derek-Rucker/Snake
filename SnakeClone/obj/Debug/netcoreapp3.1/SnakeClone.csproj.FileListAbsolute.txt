@@ -56,3 +56,5 @@ C:\Development\SnakeClone\SnakeClone\obj\Debug\netcoreapp3.1\SnakeClone.csproj.C
 C:\Development\SnakeClone\SnakeClone\obj\Debug\netcoreapp3.1\SnakeClone.dll
 C:\Development\SnakeClone\SnakeClone\obj\Debug\netcoreapp3.1\SnakeClone.pdb
 C:\Development\SnakeClone\SnakeClone\obj\Debug\netcoreapp3.1\SnakeClone.genruntimeconfig.cache
+C:\Development\SnakeClone\SnakeClone\bin\Debug\netcoreapp3.1\Content\snakeGrowX.xnb
+C:\Development\SnakeClone\SnakeClone\bin\Debug\netcoreapp3.1\Content\snakeGrowY.xnb

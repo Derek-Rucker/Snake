@@ -10,8 +10,12 @@
     <File>C:/Development/SnakeClone/SnakeClone/Content/gameOver.spritefont</File>
     <File>C:/Development/SnakeClone/SnakeClone/Content/score.spritefont</File>
     <File>C:/Development/SnakeClone/SnakeClone/Content/snake.png</File>
+    <File>C:/Development/SnakeClone/SnakeClone/Content/snakeGrowX.png</File>
+    <File>C:/Development/SnakeClone/SnakeClone/Content/snakeGrowY.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

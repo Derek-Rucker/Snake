@@ -5,3 +5,5 @@ Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Siz
 "C:/Development/SnakeClone/SnakeClone/Content/gameOver.spritefont","C:/Development/SnakeClone/SnakeClone/Content/bin/DesktopGL/Content/gameOver.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21538,0.1165709
 "C:/Development/SnakeClone/SnakeClone/Content/score.spritefont","C:/Development/SnakeClone/SnakeClone/Content/bin/DesktopGL/Content/score.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21538,0.0342793
 "C:/Development/SnakeClone/SnakeClone/Content/snake.png","C:/Development/SnakeClone/SnakeClone/Content/bin/DesktopGL/Content/snake.xnb","TextureProcessor","Texture2DContent",157,4181,0.0041321
+"C:/Development/SnakeClone/SnakeClone/Content/snakeGrowX.png","C:/Development/SnakeClone/SnakeClone/Content/bin/DesktopGL/Content/snakeGrowX.xnb","TextureProcessor","Texture2DContent",189,8277,0.2457301
+"C:/Development/SnakeClone/SnakeClone/Content/snakeGrowY.png","C:/Development/SnakeClone/SnakeClone/Content/bin/DesktopGL/Content/snakeGrowY.xnb","TextureProcessor","Texture2DContent",177,8277,0.007655

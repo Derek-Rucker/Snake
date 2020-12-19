@@ -17,6 +17,8 @@ namespace SnakeClone
 
         Texture2D snakeTexture;
         Texture2D appleTexture;
+        Texture2D snakeGrowX;
+        Texture2D snakeGrowY;
 
         List<Apple> apples;
         Queue<Snake> snakes;
@@ -52,7 +54,7 @@ namespace SnakeClone
             apples = new List<Apple>();
             snakes = new Queue<Snake>();
             //apple.position = new Vector2(random.Next(0, _graphics.PreferredBackBufferHeight), random.Next(0, _graphics.PreferredBackBufferWidth));
-            snakeSpeed = 10f;
+            snakeSpeed = 85f;
             base.Initialize();
         }
 
@@ -62,6 +64,8 @@ namespace SnakeClone
             // TODO: use this.Content to load your game content here
             snakeTexture = Content.Load<Texture2D>("snake");
             appleTexture = Content.Load<Texture2D>("apple");
+            snakeGrowX = Content.Load<Texture2D>("snakeGrowX");
+            snakeGrowY = Content.Load<Texture2D>("snakeGrowY");
             Apple apple = new Apple(appleTexture, new Vector2(random.Next(0, _graphics.PreferredBackBufferHeight), random.Next(0, _graphics.PreferredBackBufferWidth)));
             apples.Add(apple);
             snake = new Snake(snakeTexture);
@@ -94,19 +98,15 @@ namespace SnakeClone
                     {
                         case "up":
                             snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y);// + snakeTexture.Height);
-                            //snakes.ElementAt(i).position.Y -= snakeSpeed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
                             break;
                         case "down":
                             snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y);// - snakeTexture.Height);
-                            //snakes.ElementAt(i).position.Y += snakeSpeed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
                             break;
                         case "left":
                             snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y);
-                            //snakes.ElementAt(i).position.X -= snakeSpeed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
                             break;
                         case "right":
                             snakes.ElementAt(i).position = new Vector2(snakes.ElementAt(i - 1).prevPosition.X, snakes.ElementAt(i - 1).prevPosition.Y);
-                            //snakes.ElementAt(i).position.X += snakeSpeed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
                             break;
                     }
                     snakePositions[i] = snakes.ElementAt(i).position;
@@ -140,7 +140,7 @@ namespace SnakeClone
                         }
                         snakePositions.Add(addSnake.position);
                         snakes.Enqueue(addSnake);
-                        snakeSpeed += 1f;
+                        snakeSpeed += 8f;
                         score += 100;
                         apples.RemoveAt(i);
                     }

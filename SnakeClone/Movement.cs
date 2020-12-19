@@ -14,19 +14,19 @@ namespace SnakeClone
             var kstate = Keyboard.GetState();
             if (kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W))
             {
-                position.Y -= speed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds/60);
+                position.Y -= speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
                 lastDirection = "up";
             } else if (kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S))
             {
-                position.Y += speed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
+                position.Y += speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
                 lastDirection = "down";
             } else if (kstate.IsKeyDown(Keys.Left) || kstate.IsKeyDown(Keys.A))
             {
-                position.X -= speed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
+                position.X -= speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
                 lastDirection = "left";
             } else if (kstate.IsKeyDown(Keys.Right) || kstate.IsKeyDown(Keys.D))
             {
-                position.X += speed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
+                position.X += speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
                 lastDirection = "right";
             }
 
@@ -37,19 +37,19 @@ namespace SnakeClone
                 {
                     if (lastDirection == "up")
                     {
-                        position.Y -= speed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
+                        position.Y -= speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
                     }
                     if (lastDirection == "down")
                     {
-                        position.Y += speed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
+                        position.Y += speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
                     }
                     if (lastDirection == "left")
                     {
-                        position.X -= speed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
+                        position.X -= speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
                     }
                     if (lastDirection == "right")
                     {
-                        position.X += speed * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 60);
+                        position.X += speed * ((float)gameTime.ElapsedGameTime.TotalSeconds);
                     }
                 }
             }
